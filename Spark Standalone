@@ -1,0 +1,29 @@
+#Abrir um terminal Linux e executar o script para inicializar os serviços do Spark:
+~/scripts/sparkdev/training_setup_sparkdev.sh
+
+#Fechar o terminal antigo no pyspark e abrir um novo terminal utilizando o serviço do pyspark com cluster master:
+MASTER=spark://localhost:7077 pyspark
+
+#Confirmar a conexão no master digitando no shel:
+sc.master
+
+#Abrir um novo terminal no Linux e carregar alguns arquivos de logs do servidor web no HDFS:
+cd ~/training_materials/sparkdev/data
+
+hdfs dfs -put weblogs /user/training/
+
+hdfs dfs -ls /user/training/weblogs
+
+#No terminal com o Spark, executar uma operação simples no cluster para contar a quantidade de registros contidos nos arquivos dos weblogs armazenados no HDFS:
+sc.textFile("weblogs/*").count()
+
+logs=sc.textFile("weblogs/*")
+
+logs.cache()
+
+#primeiro
+logs.count()
+
+#Abrir o browser Firefox e verificar a interface do Spark Standalone Master e ver como ocorreu o processamento:
+http:/localhost:18080
+#clicar no ID da aplicação em execução para ver mais detalhes
